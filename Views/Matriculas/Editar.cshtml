@@ -1,0 +1,103 @@
+﻿@model ProyectoFinal_VillarrealHugo.Models.Matricula
+
+@{
+    ViewData["Title"] = "Editar Matrícula";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg,#5f2c82,#9c27b0);
+        color: white;
+    }
+
+    .contenedor {
+        max-width: 800px;
+        margin: auto;
+        margin-top: 40px;
+    }
+
+    .card-box {
+        background: white;
+        color: black;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
+
+    .curso-item {
+        background: #f3f3f3;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btn-custom {
+        border-radius: 25px;
+    }
+</style>
+
+<div class="contenedor">
+
+    <div class="card-box">
+
+        <h3 class="text-center mb-4">
+            <i class="bi bi-pencil-square"></i> Editar Matrícula
+        </h3>
+
+        <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+        <p><strong>Estado:</strong> @Model.Estado</p>
+
+        <hr />
+
+        <h5><i class="bi bi-book"></i> Cursos:</h5>
+
+        @foreach (var d in Model.Detalles)
+        {
+            <div class="curso-item">
+
+                <span>
+                    @d.Curso.Nombre
+                    (<strong>@d.Curso.Creditos</strong> créditos)
+                </span>
+
+                @if (Model.EstadoPago == "Pendiente")
+                {
+                    <form asp-action="EliminarCurso" method="post">
+                        <input type="hidden" name="detalleId" value="@d.Id" />
+
+                        <button class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                }
+
+            </div>
+        }
+
+        <hr />
+
+        <p><strong>Total:</strong> @Model.Total créditos</p>
+
+        <div class="text-end">
+
+            <a asp-action="Index" class="btn btn-secondary btn-custom">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+
+            @if (Model.EstadoPago == "Pendiente")
+            {
+                <a asp-controller="Estudiante"
+                       asp-action="Inicio"
+                       class="btn btn-primary btn-custom">
+                    <i class="bi bi-plus-circle"></i> Agregar cursos
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</div>

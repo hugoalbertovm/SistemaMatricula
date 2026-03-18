@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ProyectoFinal_VillarrealHugo.Models.Curso>
+
+@{
+    ViewData["Title"] = "Cursos";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #5f2c82, #9c27b0);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+        .header h2 {
+            font-weight: bold;
+        }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .card-curso {
+        background: white;
+        color: black;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+        .card-curso:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+    .icono {
+        font-size: 40px;
+        color: #9c27b0;
+        margin-bottom: 10px;
+    }
+
+    .curso-nombre {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .info {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .btn-purple {
+        background: #9c27b0;
+        color: white;
+        border-radius: 25px;
+        width: 100%;
+        padding: 8px;
+        border: none;
+    }
+
+        .btn-purple:hover {
+            background: #7b1fa2;
+        }
+</style>
+
+<div class="container">
+
+    <div class="header">
+        <h2>Cursos disponibles</h2>
+        <p>Selecciona los cursos que deseas matricular</p>
+    </div>
+
+    <div class="cards-container">
+
+        @foreach (var curso in Model)
+        {
+            <div class="card-curso">
+
+                <!-- ICONO -->
+                <div class="icono">
+                    <i class="bi bi-journal-bookmark-fill"></i>
+                </div>
+
+                <!-- NOMBRE -->
+                <div class="curso-nombre">
+                    @curso.Nombre
+                </div>
+
+                <!-- INFO -->
+                <div class="info mt-2">
+                    Créditos: <strong>@curso.Creditos</strong>
+                </div>
+
+                <div class="info">
+                    Docente:
+                    <strong>
+                        @(curso.Docente != null ? curso.Docente.Nombre : "Sin asignar")
+                    </strong>
+                </div>
+
+                <!-- BOTÓN -->
+                <form asp-controller="Matriculas" asp-action="Create" method="post">
+                    <input type="hidden" name="cursoId" value="@curso.Id" />
+
+                    <button type="submit" class="btn btn-purple mt-3">
+                        Matricular
+                    </button>
+                </form>
+
+            </div>
+        }
+
+    </div>
+
+</div>

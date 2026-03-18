@@ -1,0 +1,186 @@
+﻿@model IEnumerable<ProyectoFinal_VillarrealHugo.Models.Carrera>
+
+@{
+    ViewData["Title"] = "Carreras";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg,#5f2c82,#9c27b0);
+        color: white;
+    }
+
+    .contenedor {
+        max-width: 1100px;
+        margin: auto;
+        margin-top: 40px;
+    }
+
+    .titulo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .tabla-card {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
+
+    thead {
+        background: #2c2c2c;
+        color: white;
+    }
+
+    tbody tr {
+        transition: all 0.2s ease;
+    }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+            transform: scale(1.01);
+        }
+
+    .btn-custom {
+        border-radius: 25px;
+        padding: 5px 12px;
+    }
+
+    .btn-add {
+        border-radius: 25px;
+        padding: 8px 18px;
+    }
+
+    .alert-custom {
+        border-radius: 15px;
+    }
+
+    .modal-content {
+        border-radius: 20px;
+    }
+</style>
+
+<div class="contenedor">
+
+    <!-- ALERTAS -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show alert-custom">
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show alert-custom">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- HEADER -->
+    <div class="titulo">
+        <h3><i class="bi bi-mortarboard-fill"></i> Carreras</h3>
+
+        <a asp-action="Create" class="btn btn-success btn-add">
+            <i class="bi bi-plus-circle"></i> Nueva Carrera
+        </a>
+    </div>
+
+    <!-- TABLA -->
+    <div class="tabla-card">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th><i class="bi bi-bookmark"></i> Nombre</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>
+                            <i class="bi bi-bookmark-fill text-primary"></i>
+                            @c.Nombre
+                        </td>
+
+                        <td class="text-end">
+
+                            <!-- EDITAR -->
+                            <a asp-action="Edit"
+                                   asp-route-id="@c.Id"
+                                   class="btn btn-warning btn-sm btn-custom">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <!-- ELIMINAR (MODAL) -->
+                            <button class="btn btn-danger btn-sm btn-custom"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal-@c.Id">
+                                <i class="bi bi-trash"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+
+                    <!-- MODAL -->
+                    <div class="modal fade" id="deleteModal-@c.Id" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                        Confirmar eliminación
+                                    </h5>
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body text-center">
+                                    <i class="bi bi-trash-fill text-danger" style="font-size:50px;"></i>
+
+                                    <p class="mt-3">¿Eliminar esta carrera?</p>
+
+                                    <h5>@c.Nombre</h5>
+
+                                    <p class="text-muted">
+                                        Esta acción no se puede deshacer
+                                    </p>
+                                </div>
+
+                                <div class="modal-footer justify-content-center">
+
+                                    <button class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+
+                                    <form asp-action="Delete" method="post">
+                                        <input type="hidden" name="id" value="@c.Id" />
+
+                                        <button class="btn btn-danger">
+                                            <i class="bi bi-trash"></i> Eliminar
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

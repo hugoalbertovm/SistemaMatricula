@@ -1,0 +1,84 @@
+﻿@model List<ProyectoFinal_VillarrealHugo.Models.Carrera>
+
+<style>
+    .titulo {
+        text-align: center;
+        color: white;
+        margin-top: 30px;
+    }
+
+    .card-carrera {
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+        .card-carrera:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+    .btn-purple {
+        background: #9c27b0;
+        color: white;
+        border-radius: 25px;
+        padding: 8px 20px;
+    }
+
+        .btn-purple:hover {
+            background: #7b1fa2;
+            color: white;
+        }
+
+    .icono {
+        font-size: 40px;
+        color: #9c27b0;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="titulo">
+    <h2>Explora tu futuro académico</h2>
+    <p>Selecciona una carrera para ver sus cursos disponibles</p>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+
+        @foreach (var carrera in Model)
+        {
+            <div class="col-md-4 mb-4">
+
+                <div class="card card-carrera shadow-lg">
+
+                    <div class="card-body text-center">
+
+                        <!-- ICONO -->
+                        <div class="icono">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+
+                        <!-- NOMBRE -->
+                        <h5 class="fw-bold">@carrera.Nombre</h5>
+
+                        <!-- DURACION -->
+                        <p class="text-muted">
+                            Duración: @carrera.Duracion años
+                        </p>
+
+                        <!-- BOTON -->
+                        <a asp-action="CursosPorCarrera"
+                               asp-route-id="@carrera.Id"
+                               class="btn btn-purple mt-2">
+                            Ver Cursos
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+</div>

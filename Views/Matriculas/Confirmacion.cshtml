@@ -1,0 +1,79 @@
+﻿@model ProyectoFinal_VillarrealHugo.Models.Matricula
+
+@{
+    ViewData["Title"] = "Confirmación";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #5f2c82, #9c27b0);
+        color: white;
+    }
+
+    .confirm-container {
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .box {
+        background: white;
+        color: black;
+        padding: 40px;
+        border-radius: 25px;
+        text-align: left;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .curso-item {
+        background: #f3f3f3;
+        padding: 8px 12px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+
+    .btn-purple {
+        background: #9c27b0;
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+    }
+
+        .btn-purple:hover {
+            background: #7b1fa2;
+        }
+</style>
+
+<div class="confirm-container">
+    <div class="box">
+
+        <h3 class="mb-3">Confirmar Matrícula</h3>
+
+        <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+        <p><strong>Estado:</strong> @Model.Estado</p>
+
+        <h5 class="mt-3">Cursos:</h5>
+
+        @foreach (var d in Model.Detalles)
+        {
+            <div class="curso-item">
+                @d.Curso.Nombre (@d.Curso.Creditos créditos)
+            </div>
+        }
+
+        <p class="mt-3"><strong>Total:</strong> @Model.Total créditos</p>
+
+        <!-- BOTÓN CONFIRMAR -->
+        <form asp-action="Confirmar" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <button type="submit" class="btn btn-purple mt-3">
+                Confirmar Matrícula
+            </button>
+        </form>
+
+    </div>
+</div>

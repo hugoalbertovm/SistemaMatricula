@@ -1,0 +1,158 @@
+﻿@model ProyectoFinal_VillarrealHugo.Models.Carrera
+
+@{
+    ViewData["Title"] = "Eliminar Carrera";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg,#5f2c82,#9c27b0);
+    }
+
+    .contenedor {
+        max-width: 500px;
+        margin: auto;
+        margin-top: 80px;
+    }
+
+    .card-delete {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease;
+    }
+
+    .icono {
+        font-size: 60px;
+        color: #dc3545;
+        margin-bottom: 15px;
+    }
+
+    .nombre {
+        font-weight: bold;
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .btn-custom {
+        border-radius: 25px;
+        padding: 8px 18px;
+    }
+
+    .modal-content {
+        border-radius: 20px;
+    }
+
+    .modal-header {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+
+<div class="contenedor">
+
+    <!-- ALERTA ERROR -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-triangle"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- CARD -->
+    <div class="card-delete">
+
+        <div class="icono">
+            <i class="bi bi-trash-fill"></i>
+        </div>
+
+        <h4 class="text-danger">
+            Eliminar Carrera
+        </h4>
+
+        <p>Estás a punto de eliminar:</p>
+
+        <div class="nombre">
+            @Model.Nombre
+        </div>
+
+        <p class="text-muted">
+            Esta acción no se puede deshacer
+        </p>
+
+        <!-- BOTONES -->
+        <div class="mt-4">
+
+            <!-- BOTÓN QUE ABRE MODAL -->
+            <button class="btn btn-danger btn-custom"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmDelete">
+                <i class="bi bi-trash"></i> Eliminar
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary btn-custom ms-2">
+                <i class="bi bi-arrow-left"></i> Cancelar
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="confirmDelete" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Confirmar eliminación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center">
+                <i class="bi bi-trash-fill text-danger" style="font-size:50px;"></i>
+
+                <p class="mt-3">¿Seguro que deseas eliminar?</p>
+
+                <h5>@Model.Nombre</h5>
+
+                <p class="text-muted">
+                    Esta acción no se puede deshacer
+                </p>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer justify-content-center">
+
+                <button class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <button class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
